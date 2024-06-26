@@ -39,6 +39,9 @@ void ACpp_PlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// Add Forward Movement (in tick as its an endless runner, take into acc delta time)
+	AddMovementInput(GetActorForwardVector(), 100.0f * DeltaTime);
+
 }
 void ACpp_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
