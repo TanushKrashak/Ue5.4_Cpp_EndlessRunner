@@ -4,6 +4,10 @@
 #include "Cpp_PlayerCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "InputActionValue.h"
+
 
 
 ACpp_PlayerCharacter::ACpp_PlayerCharacter()
@@ -40,6 +44,35 @@ void ACpp_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Add Input Mapping Context
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController())) {
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer())) {
+			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
+
+	// Set up action bindings
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
+
+		// Jumping
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+
+		// Moving
+		EnhancedInputComponent->BindAction(MoveLeftAction, ETriggerEvent::Started, this, &ACpp_PlayerCharacter::MoveLeft);
+		EnhancedInputComponent->BindAction(MoveRightAction, ETriggerEvent::Started, this, &ACpp_PlayerCharacter::MoveRight);
+		EnhancedInputComponent->BindAction(MoveDownAction, ETriggerEvent::Started, this, &ACpp_PlayerCharacter::MoveDown);
+
+	}
 }
 
+void ACpp_PlayerCharacter::MoveLeft() {
+
+}
+void ACpp_PlayerCharacter::MoveRight() {
+
+}
+void ACpp_PlayerCharacter::MoveDown() {
+
+}
 
