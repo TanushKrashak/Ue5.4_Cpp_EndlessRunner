@@ -6,6 +6,10 @@
 #include "GameFramework/Character.h"
 #include "Cpp_PlayerCharacter.generated.h"
 
+// Forward Declarations
+class USpringArmComponent;
+class UCameraComponent;
+
 UCLASS()
 class CPP_ENDLESSRUNNER_API ACpp_PlayerCharacter : public ACharacter
 {
@@ -16,17 +20,23 @@ public:
 	// PROPERTIES & VARIABLES
 	//================================================================================================================
 
-
 	//================================================================================================================
 	// FUNCTIONS
 	//================================================================================================================
 	ACpp_PlayerCharacter();
 
+
+
 protected:
 	//================================================================================================================
 	// PROPERTIES & VARIABLES
 	//================================================================================================================
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	USpringArmComponent* SpringArm;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* Camera;
+
 
 
 
@@ -35,9 +45,6 @@ protected:
 	//================================================================================================================
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-
-
-public:	
-
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };

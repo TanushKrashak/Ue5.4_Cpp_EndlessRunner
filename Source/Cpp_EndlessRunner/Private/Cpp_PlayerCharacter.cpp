@@ -2,33 +2,44 @@
 
 
 #include "Cpp_PlayerCharacter.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 
-// Sets default values
+
 ACpp_PlayerCharacter::ACpp_PlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Setup Spring Arm
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));	
+	SpringArm->TargetArmLength = 600.0f;
+	SpringArm->SocketOffset = FVector(0.0f, 0.0f, 100.0f);
+	SpringArm->bUsePawnControlRotation = true;
+	SpringArm->SetupAttachment(RootComponent);
+
+	// Setup Camera
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	Camera->bUsePawnControlRotation = false;
+	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
+
+
 }
 
-// Called when the game starts or when spawned
 void ACpp_PlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
-
-// Called every frame
 void ACpp_PlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
-
-// Called to bind functionality to input
 void ACpp_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
+
 
