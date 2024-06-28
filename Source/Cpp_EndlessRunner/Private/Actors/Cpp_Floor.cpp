@@ -2,19 +2,51 @@
 
 
 #include "Actors/Cpp_Floor.h"
+#include "Components/ArrowComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
+
 
 ACpp_Floor::ACpp_Floor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Setup Scene (root)
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	RootComponent = Root;
+
+	// Setup Floor Mesh
+	FloorMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FloorMesh"));
+	FloorMesh->SetupAttachment(Root);
+
+	// Setup Spawn Point
+	AttachPoint = CreateDefaultSubobject<UArrowComponent>(TEXT("AttachPoint"));
+	AttachPoint->SetupAttachment(Root);
+
+	// Setup Center Lane
+	CenterLane = CreateDefaultSubobject<UArrowComponent>(TEXT("CenterLane"));
+	CenterLane->SetupAttachment(Root);
+
+	// Setup Left Lane
+	LeftLane = CreateDefaultSubobject<UArrowComponent>(TEXT("LeftLane"));
+	LeftLane->SetupAttachment(Root);
+
+	// Setup Right Lane
+	RightLane = CreateDefaultSubobject<UArrowComponent>(TEXT("RightLane"));
+	RightLane->SetupAttachment(Root);
+
+	// Setup Floor Trigger
+	FloorTrigger = CreateDefaultSubobject<UBoxComponent>(TEXT("FloorTrigger"));
+	FloorTrigger->SetupAttachment(Root);
+	FloorTrigger->SetBoxExtent(FVector(32.0f, 500.0f, 200.0f));
+	FloorTrigger->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 }
 
 
 void ACpp_Floor::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	
 }
 void ACpp_Floor::Tick(float DeltaTime)

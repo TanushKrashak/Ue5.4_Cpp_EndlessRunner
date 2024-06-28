@@ -28,7 +28,7 @@ public:
 	UStaticMeshComponent* FloorMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UArrowComponent* SpawnFloorPoint;
+	UArrowComponent* AttachPoint;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UArrowComponent* CenterLane;
