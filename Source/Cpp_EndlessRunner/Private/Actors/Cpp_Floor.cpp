@@ -9,7 +9,7 @@
 
 ACpp_Floor::ACpp_Floor()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	// Setup Scene (root)
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
@@ -42,17 +42,14 @@ ACpp_Floor::ACpp_Floor()
 	FloorTrigger->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 }
 
+FORCEINLINE const FTransform ACpp_Floor::GetNextSpawnPoint() const {
+	return AttachPoint->GetComponentTransform(); 
+}
 
 void ACpp_Floor::BeginPlay()
 {
 	Super::BeginPlay();
 	
 	
-}
-void ACpp_Floor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-
 }
 

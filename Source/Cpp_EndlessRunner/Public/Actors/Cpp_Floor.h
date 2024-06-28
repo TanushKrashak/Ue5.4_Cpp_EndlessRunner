@@ -21,6 +21,20 @@ public:
 	//================================================================================================================
 	// PROPERTIES & VARIABLES
 	//================================================================================================================
+	
+
+	//================================================================================================================
+	// FUNCTIONS
+	//================================================================================================================
+	ACpp_Floor();
+
+	FORCEINLINE const FTransform GetNextSpawnPoint() const;
+
+
+protected:
+	//================================================================================================================
+	// PROPERTIES & VARIABLES
+	//================================================================================================================
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USceneComponent* Root;
 
@@ -30,12 +44,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UArrowComponent* AttachPoint;
 
+	// Lanes
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UArrowComponent* CenterLane;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UArrowComponent* LeftLane;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UArrowComponent* RightLane;
 
@@ -45,19 +58,6 @@ public:
 	//================================================================================================================
 	// FUNCTIONS
 	//================================================================================================================
-	ACpp_Floor();
-
-
-protected:
-	//================================================================================================================
-	// PROPERTIES & VARIABLES
-	//================================================================================================================
-
-
-	//================================================================================================================
-	// FUNCTIONS
-	//================================================================================================================
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 
 };
