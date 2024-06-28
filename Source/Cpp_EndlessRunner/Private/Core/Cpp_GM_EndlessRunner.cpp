@@ -14,8 +14,9 @@ void ACpp_GM_EndlessRunner::CreateInitialFloorTiles() {
 void ACpp_GM_EndlessRunner::AddFloorTile() {
 	UWorld* World = GetWorld();
 	if (World) {
-		// Spawn Floor Tiles in a row
+		// Spawn Tile with custom constructor
 		ACpp_Floor* Tile = World->SpawnActor<ACpp_Floor>(FloorTileClass, NextSpawnPoint);
+		Tile->SetGameModeRef(this);
 		if (Tile) {
 			NextSpawnPoint = Tile->GetNextSpawnPoint();
 

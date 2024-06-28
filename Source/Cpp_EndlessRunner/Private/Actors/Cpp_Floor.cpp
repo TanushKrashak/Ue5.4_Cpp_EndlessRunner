@@ -5,6 +5,8 @@
 #include "Components/ArrowComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
+#include "Core/Cpp_GM_EndlessRunner.h"
+
 
 
 ACpp_Floor::ACpp_Floor()
@@ -46,10 +48,26 @@ FORCEINLINE const FTransform ACpp_Floor::GetNextSpawnPoint() const {
 	return AttachPoint->GetComponentTransform(); 
 }
 
+void ACpp_Floor::SetGameModeRef(ACpp_GM_EndlessRunner* inGamemode) {
+	GameModeRef = inGamemode;
+	// Check if the GameModeRef is valid
+	check(GameModeRef);
+
+	FloorTrigger->OnComponentBeginOverlap.AddDynamic(this, &ACpp_Floor::OnFloorTriggerOverlap);
+		
+}
+
 void ACpp_Floor::BeginPlay()
 {
-	Super::BeginPlay();
-	
-	
+	Super::BeginPlay();	
+}
+
+
+void ACpp_Floor::OnFloorTriggerOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	// Check if the Other Actor is the player
+	if (OtherActor->ActorHasTag("Player")) {
+		GameModeRef->AddFloorTile();
+		SetLifeSpan(2.0f);		
+	}
 }
 

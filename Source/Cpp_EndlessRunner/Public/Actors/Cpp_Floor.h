@@ -11,6 +11,7 @@ class USceneComponent;
 class UStaticMeshComponent;
 class UArrowComponent;
 class UBoxComponent;
+class ACpp_GM_EndlessRunner;
 
 UCLASS()
 class CPP_ENDLESSRUNNER_API ACpp_Floor : public AActor
@@ -26,10 +27,11 @@ public:
 	//================================================================================================================
 	// FUNCTIONS
 	//================================================================================================================
-	ACpp_Floor();
+	ACpp_Floor();	
 
 	FORCEINLINE const FTransform GetNextSpawnPoint() const;
 
+	void SetGameModeRef(ACpp_GM_EndlessRunner* inGamemode);
 
 protected:
 	//================================================================================================================
@@ -55,9 +57,17 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Floor")
 	UBoxComponent* FloorTrigger;
 
+	UPROPERTY(VisibleInstanceOnly)
+	ACpp_GM_EndlessRunner* GameModeRef;
+
+
+
 	//================================================================================================================
 	// FUNCTIONS
 	//================================================================================================================
 	virtual void BeginPlay() override;
 
+	// BeginOverlap Function
+	UFUNCTION()
+	void OnFloorTriggerOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };
