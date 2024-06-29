@@ -8,6 +8,7 @@
 
 // Forward Declarations
 class ACpp_Floor;
+class UCpp_WGT_HUD;
 
 UCLASS()
 class CPP_ENDLESSRUNNER_API ACpp_GM_EndlessRunner : public AGameModeBase
@@ -39,18 +40,22 @@ protected:
 	//================================================================================================================
 	// PROPERTIES & VARIABLES
 	//================================================================================================================
+	// Config
 	UPROPERTY(EditDefaultsOnly, Category="Config")
 	TSubclassOf<ACpp_Floor> FloorTileClass;
-
-
 	UPROPERTY(EditAnywhere, Category = "Config")
 	int32 InitialFloorTiles = 10;
+	UPROPERTY(EditAnywhere, Category = "Config")
+	TSubclassOf<UCpp_WGT_HUD> WGT_HudClass;
 
+
+	// Runtime
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 	FTransform NextSpawnPoint;
-
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 	TArray<float> LaneOffsets;
+	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
+	UCpp_WGT_HUD* WGT_Hud;
 
 	UPROPERTY(VisibleAnywhere, Category = "Coins")
 	int32 CoinsCollected = 0;

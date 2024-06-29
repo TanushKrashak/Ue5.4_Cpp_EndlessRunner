@@ -4,6 +4,7 @@
 #include "Core/Cpp_GM_EndlessRunner.h"
 #include "Actors/Cpp_Floor.h"
 #include "Components/ArrowComponent.h"
+#include "Widgets/Cpp_WGT_HUD.h"
 
 
 void ACpp_GM_EndlessRunner::CreateInitialFloorTiles() {
@@ -49,11 +50,22 @@ float ACpp_GM_EndlessRunner::GetLaneOffset(int32 index) const {
 
 void ACpp_GM_EndlessRunner::CoinCollected() {
 	CoinsCollected++;
-	UE_LOG(LogTemp, Warning, TEXT("Coins Collected: %d"), CoinsCollected);
+	// Update HUD
+	if (WGT_Hud) {
+		WGT_Hud->UpdateCoinsCollected(CoinsCollected);
+	}
 }
 
 void ACpp_GM_EndlessRunner::BeginPlay() {
 	Super::BeginPlay();
 
 	CreateInitialFloorTiles();
+
+	// Create HUD
+	if (WGT_HudClass) {
+		WGT_Hud = CreateWidget<UCpp_WGT_HUD>(GetWorld(), WGT_HudClass);
+		if (WGT_Hud) {
+			WGT_Hud->AddToViewport();
+		}
+	}
 }
