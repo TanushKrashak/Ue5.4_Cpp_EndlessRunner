@@ -5,6 +5,9 @@
 #include "Actors/Cpp_Floor.h"
 #include "Components/ArrowComponent.h"
 #include "Widgets/Cpp_WGT_HUD.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/PlayerController.h"
+
 
 
 void ACpp_GM_EndlessRunner::CreateInitialFloorTiles() {
@@ -56,9 +59,21 @@ void ACpp_GM_EndlessRunner::CoinCollected() {
 	}
 }
 
+bool ACpp_GM_EndlessRunner::PlayerGotHit() {
+	CurrentLives--;
+	// Update HUD
+	if (WGT_Hud) {
+		WGT_Hud->UpdateHealth(CurrentLives);
+	}
+	if (CurrentLives <= 0) {
+		return true;
+	}
+	return false;
+}
+
 void ACpp_GM_EndlessRunner::BeginPlay() {
 	Super::BeginPlay();
-
+	CurrentLives = MaxLives + 1;
 	CreateInitialFloorTiles();
 
 	// Create HUD
@@ -68,4 +83,13 @@ void ACpp_GM_EndlessRunner::BeginPlay() {
 			WGT_Hud->AddToViewport();
 		}
 	}
+
+	// Set Input Mode Game And UI, and show mouse cursor
+	if (APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0)) {
+		PlayerController->bShowMouseCursor = true;
+		FInputModeGameAndUI InputMode;
+		PlayerController->SetInputMode(InputMode);
+	}
+
+	PlayerGotHit();
 }

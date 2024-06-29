@@ -105,6 +105,12 @@ void ACpp_PlayerCharacter::CoinCollected() {
 	// Can add cosmetic effects here
 }
 
+void ACpp_PlayerCharacter::GotHit() {
+	if (GameModeRef->PlayerGotHit()) {
+		Death();
+	}
+}
+
 void ACpp_PlayerCharacter::onDeath() {
 	// Restart Level
 	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);

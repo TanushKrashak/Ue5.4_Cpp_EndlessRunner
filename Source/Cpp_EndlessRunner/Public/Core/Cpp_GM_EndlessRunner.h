@@ -36,6 +36,9 @@ public:
 	UFUNCTION()
 	void CoinCollected();
 
+	UFUNCTION()
+	bool PlayerGotHit();
+
 protected:
 	//================================================================================================================
 	// PROPERTIES & VARIABLES
@@ -57,8 +60,13 @@ protected:
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 	UCpp_WGT_HUD* WGT_Hud;
 
+	// Stats
 	UPROPERTY(VisibleAnywhere, Category = "Coins")
-	int32 CoinsCollected = 0;
+	int32 CoinsCollected = 0;	
+	UPROPERTY(EditAnywhere, Category = "Health")
+	int32 MaxLives = 3;
+	UPROPERTY(VisibleAnywhere, Category = "Health")
+	int32 CurrentLives = 0;
 	
 	//================================================================================================================
 	// FUNCTIONS

@@ -57,6 +57,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CoinCollected();
 
+	UFUNCTION(BlueprintCallable)
+	void GotHit();
+
 protected:
 	//================================================================================================================
 	// PROPERTIES & VARIABLES

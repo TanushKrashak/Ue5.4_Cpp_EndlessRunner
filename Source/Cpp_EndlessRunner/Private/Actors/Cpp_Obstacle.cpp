@@ -25,7 +25,8 @@ ACpp_Obstacle::ACpp_Obstacle()
 
 void ACpp_Obstacle::OnMeshHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
 	if (auto Player = Cast<ACpp_PlayerCharacter>(OtherActor)) {
-		Player->Death();
+		Player->GotHit();
+		this->Destroy();
 	}
 }
 
