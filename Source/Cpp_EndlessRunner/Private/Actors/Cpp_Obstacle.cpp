@@ -19,11 +19,5 @@ ACpp_Obstacle::ACpp_Obstacle()
 
 }
 
-void ACpp_Obstacle::BeginPlay()
-{
-	Super::BeginPlay();
-
-	
-}
 
 

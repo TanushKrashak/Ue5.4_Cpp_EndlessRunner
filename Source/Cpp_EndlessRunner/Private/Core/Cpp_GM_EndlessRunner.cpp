@@ -7,24 +7,34 @@
 
 
 void ACpp_GM_EndlessRunner::CreateInitialFloorTiles() {
-	ACpp_Floor* Tile = AddFloorTile();
+	// 3 Initial Floor Tiles Without Obstacles
+	ACpp_Floor* Tile = AddFloorTile(false);
 	if (Tile) {
 		LaneOffsets.Add(Tile->LeftLane->GetComponentLocation().Y);
 		LaneOffsets.Add(Tile->CenterLane->GetComponentLocation().Y);
 		LaneOffsets.Add(Tile->RightLane->GetComponentLocation().Y);
 	}	
-	for (int i = 0; i < InitialFloorTiles-1; i++) {
-		AddFloorTile();
+	// Remaining 2 Tiles
+	AddFloorTile(false);
+	AddFloorTile(false);
+
+	// Remaining Tiles With Obstacles
+	for (int i = 0; i < InitialFloorTiles-3; i++) {
+		AddFloorTile(true);
+
 	}
 }
 
-ACpp_Floor* ACpp_GM_EndlessRunner::AddFloorTile() {
+ACpp_Floor* ACpp_GM_EndlessRunner::AddFloorTile(const bool bSpawnItems) {
 	UWorld* World = GetWorld();
 	if (World) {
 		// Spawn Tile with custom constructor
 		ACpp_Floor* Tile = World->SpawnActor<ACpp_Floor>(FloorTileClass, NextSpawnPoint);
 		Tile->SetGameModeRef(this);
 		if (Tile) {
+			if (bSpawnItems) {
+				Tile->SpawnItems();
+			}
 			NextSpawnPoint = Tile->GetNextSpawnPoint();
 
 		}

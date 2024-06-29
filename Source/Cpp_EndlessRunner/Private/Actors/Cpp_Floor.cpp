@@ -6,7 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
 #include "Core/Cpp_GM_EndlessRunner.h"
-
+#include "Actors/Cpp_Obstacle.h"
 
 
 ACpp_Floor::ACpp_Floor()
@@ -44,6 +44,11 @@ ACpp_Floor::ACpp_Floor()
 	FloorTrigger->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 }
 
+
+void ACpp_Floor::BeginPlay() {
+	Super::BeginPlay();
+}
+
 FORCEINLINE const FTransform ACpp_Floor::GetNextSpawnPoint() const {
 	return AttachPoint->GetComponentTransform(); 
 }
@@ -57,16 +62,30 @@ void ACpp_Floor::SetGameModeRef(ACpp_GM_EndlessRunner* inGamemode) {
 		
 }
 
-void ACpp_Floor::BeginPlay()
-{
-	Super::BeginPlay();	
+void ACpp_Floor::SpawnItems() {
+	if (SmallObstacleClass) {
+		SpawnLaneItem(CenterLane);
+		SpawnLaneItem(LeftLane);
+		SpawnLaneItem(RightLane);
+	}
 }
+void ACpp_Floor::SpawnLaneItem(UArrowComponent* Lane) {
+	// Decide On Chance
+	const float RandomValue = FMath::FRandRange(0.0f, 1.0f);
+	if (RandomValue <= 0.5f) {
+		// Spawn Obstacle
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		const FTransform& SpawnTransform = Lane->GetComponentTransform();
+		ACpp_Obstacle* Obstacle = GetWorld()->SpawnActor<ACpp_Obstacle>(SmallObstacleClass, SpawnTransform, SpawnParams);
 
+	}
+}
 
 void ACpp_Floor::OnFloorTriggerOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	// Check if the Other Actor is the player
 	if (OtherActor->ActorHasTag("Player")) {
-		GameModeRef->AddFloorTile();
+		GameModeRef->AddFloorTile(true);
 		SetLifeSpan(2.0f);		
 	}
 }

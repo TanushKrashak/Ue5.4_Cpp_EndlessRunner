@@ -12,6 +12,7 @@ class UStaticMeshComponent;
 class UArrowComponent;
 class UBoxComponent;
 class ACpp_GM_EndlessRunner;
+class ACpp_Obstacle;
 
 UCLASS()
 class CPP_ENDLESSRUNNER_API ACpp_Floor : public AActor
@@ -29,15 +30,24 @@ public:
 	UArrowComponent* LeftLane;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UArrowComponent* RightLane;
+	
 
 	//================================================================================================================
 	// FUNCTIONS
 	//================================================================================================================
 	ACpp_Floor();	
 
+	virtual void BeginPlay() override;
+
 	FORCEINLINE const FTransform GetNextSpawnPoint() const;
 
 	void SetGameModeRef(ACpp_GM_EndlessRunner* inGamemode);
+
+	// Spawn Items
+	UFUNCTION()
+	void SpawnItems();
+	UFUNCTION()
+	void SpawnLaneItem(UArrowComponent* Lane);
 
 protected:
 	//================================================================================================================
@@ -58,12 +68,12 @@ protected:
 	UPROPERTY(VisibleInstanceOnly)
 	ACpp_GM_EndlessRunner* GameModeRef;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Config")
+	TSubclassOf<ACpp_Obstacle> SmallObstacleClass;
 
 	//================================================================================================================
 	// FUNCTIONS
-	//================================================================================================================
-	virtual void BeginPlay() override;
+	//================================================================================================================	
 
 	// BeginOverlap Function
 	UFUNCTION()

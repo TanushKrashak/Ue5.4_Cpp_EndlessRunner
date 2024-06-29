@@ -27,8 +27,7 @@ public:
 	// FUNCTIONS
 	//================================================================================================================
 	ACpp_Obstacle();
-	
-	virtual void BeginPlay() override;
+		
 	
 
 protected:

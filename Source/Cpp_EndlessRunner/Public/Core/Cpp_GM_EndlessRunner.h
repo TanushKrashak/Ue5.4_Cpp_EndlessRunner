@@ -27,7 +27,7 @@ public:
 	void CreateInitialFloorTiles();
 
 	UFUNCTION(BlueprintCallable)
-	ACpp_Floor* AddFloorTile();
+	ACpp_Floor* AddFloorTile(const bool bSpawnItems);
 
 	UFUNCTION()
 	float GetLaneOffset(int32 index) const;
