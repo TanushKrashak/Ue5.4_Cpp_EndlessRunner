@@ -12,8 +12,8 @@ void ACpp_GM_EndlessRunner::CreateInitialFloorTiles() {
 		LaneOffsets.Add(Tile->LeftLane->GetComponentLocation().Y);
 		LaneOffsets.Add(Tile->CenterLane->GetComponentLocation().Y);
 		LaneOffsets.Add(Tile->RightLane->GetComponentLocation().Y);
-	}
-	for (int i = 0; i < InitialFloorTiles; i++) {
+	}	
+	for (int i = 0; i < InitialFloorTiles-1; i++) {
 		AddFloorTile();
 	}
 }
@@ -31,6 +31,10 @@ ACpp_Floor* ACpp_GM_EndlessRunner::AddFloorTile() {
 		return Tile;
 	}
 	return nullptr;
+}
+
+float ACpp_GM_EndlessRunner::GetLaneOffset(int32 index) const {
+	return LaneOffsets[index];
 }
 
 void ACpp_GM_EndlessRunner::BeginPlay() {

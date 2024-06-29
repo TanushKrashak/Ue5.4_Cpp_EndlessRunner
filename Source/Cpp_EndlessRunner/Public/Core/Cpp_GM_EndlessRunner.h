@@ -29,6 +29,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	ACpp_Floor* AddFloorTile();
 
+	UFUNCTION()
+	float GetLaneOffset(int32 index) const;
 
 protected:
 	//================================================================================================================

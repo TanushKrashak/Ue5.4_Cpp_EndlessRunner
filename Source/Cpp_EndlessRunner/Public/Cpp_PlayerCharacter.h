@@ -11,6 +11,7 @@ class UInputAction;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
+class ACpp_GM_EndlessRunner;
 
 UCLASS()
 class CPP_ENDLESSRUNNER_API ACpp_PlayerCharacter : public ACharacter
@@ -70,7 +71,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* Camera;
 
-	
+	UPROPERTY(VisibleInstanceOnly)
+	ACpp_GM_EndlessRunner* GameModeRef;
 
 
 	//================================================================================================================

@@ -7,6 +7,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Core/Cpp_GM_EndlessRunner.h"
 
 
 
@@ -33,6 +34,9 @@ ACpp_PlayerCharacter::ACpp_PlayerCharacter()
 void ACpp_PlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Get GameMode Reference
+	GameModeRef = Cast<ACpp_GM_EndlessRunner>(GetWorld()->GetAuthGameMode());
 	
 }
 void ACpp_PlayerCharacter::Tick(float DeltaTime)
@@ -70,19 +74,23 @@ void ACpp_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 }
 
 void ACpp_PlayerCharacter::ChangeLaneUpdate(float inAlpha) {
-
+	FVector NewLocation = GetActorLocation();
+	NewLocation.Y = FMath::Lerp(GameModeRef->GetLaneOffset(CurrentLane), GameModeRef->GetLaneOffset(TargetLane), inAlpha);
+	SetActorLocation(NewLocation);
 }
 void ACpp_PlayerCharacter::ChangeLaneComplete() {
-
+	CurrentLane = TargetLane;
 }
 
 void ACpp_PlayerCharacter::MoveLeft() {
-
+	TargetLane = FMath::Clamp(TargetLane - 1, 0, 2);
+	ChangeLane();
 }
 void ACpp_PlayerCharacter::MoveRight() {
-
+	TargetLane = FMath::Clamp(TargetLane + 1, 0, 2);
+	ChangeLane();
 }
 void ACpp_PlayerCharacter::MoveDown() {
-
+	
 }
 
