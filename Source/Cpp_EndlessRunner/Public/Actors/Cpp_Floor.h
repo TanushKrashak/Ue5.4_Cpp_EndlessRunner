@@ -49,7 +49,7 @@ public:
 	UFUNCTION()
 	void SpawnItems();
 	UFUNCTION()
-	void SpawnLaneItem(UArrowComponent* Lane);
+	int32 SpawnLaneItem(UArrowComponent* Lane, TArray<int32>& SpawnedIndex);
 
 protected:
 	//================================================================================================================

@@ -9,6 +9,7 @@
 #include "Actors/Cpp_Obstacle.h"
 #include "Actors/Cpp_Coin.h"
 
+
 ACpp_Floor::ACpp_Floor()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -65,14 +66,15 @@ void ACpp_Floor::SetGameModeRef(ACpp_GM_EndlessRunner* inGamemode) {
 void ACpp_Floor::SpawnItems() {
 	// Check if all classes in ObstacleClasses Array  are valid
 	if (ObstacleClasses.Num() > 0 && CoinClass) {
+		TArray<int32> SpawnedIndex = TArray<int32>();
 		// Spawn Obstacles
-		SpawnLaneItem(CenterLane);
-		SpawnLaneItem(LeftLane);
-		SpawnLaneItem(RightLane);
+		SpawnedIndex.Add(SpawnLaneItem(CenterLane, SpawnedIndex));
+		SpawnedIndex.Add(SpawnLaneItem(LeftLane, SpawnedIndex));
+		SpawnLaneItem(RightLane, SpawnedIndex);
 	}
 
 }
-void ACpp_Floor::SpawnLaneItem(UArrowComponent* Lane) {
+int32 ACpp_Floor::SpawnLaneItem(UArrowComponent* Lane, TArray<int32>& SpawnedIndex) {
 	// Spawn Parameters
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
@@ -86,14 +88,25 @@ void ACpp_Floor::SpawnLaneItem(UArrowComponent* Lane) {
 		if (RandomValue <= 0.7f) {
 			// Coin
 			ACpp_Coin* Coin = GetWorld()->SpawnActor<ACpp_Coin>(CoinClass, SpawnTransform, SpawnParams);
+			return -2;
 		}
 		else {
 			// Obstacle
-			TSubclassOf<ACpp_Obstacle> ChosenObstacle = ObstacleClasses[FMath::RandRange(0, ObstacleClasses.Num() - 1)];
+			// Get Random Index for ObstacleClasses
+			int32 index = FMath::RandRange(0, ObstacleClasses.Num() - 1);
+			// Check if the RandomValue is already in the SpawnedIndex
+			if (SpawnedIndex.Num() == 2 && SpawnedIndex[0] == SpawnedIndex[1]) {
+				while (SpawnedIndex.Contains(index)) {
+					index = FMath::RandRange(0, ObstacleClasses.Num() - 1);
+				}
+			}
+			TSubclassOf<ACpp_Obstacle> ChosenObstacle = ObstacleClasses[index];
 			ACpp_Obstacle* Obstacle = GetWorld()->SpawnActor<ACpp_Obstacle>(ChosenObstacle, SpawnTransform, SpawnParams);
+			return index;
 		}				
 
-	}
+	}	
+	return -1;
 }
 
 void ACpp_Floor::OnFloorTriggerOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
