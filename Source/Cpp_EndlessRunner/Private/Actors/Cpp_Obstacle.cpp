@@ -2,6 +2,10 @@
 
 
 #include "Actors/Cpp_Obstacle.h"
+#include "Components/StaticMeshComponent.h"
+#include "Components/PrimitiveComponent.h"
+#include "Cpp_PlayerCharacter.h"
+
 
 ACpp_Obstacle::ACpp_Obstacle()
 {
@@ -15,9 +19,14 @@ ACpp_Obstacle::ACpp_Obstacle()
 	// Setup Mesh
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Root);
-
+	Mesh->OnComponentHit.AddDynamic(this, &ACpp_Obstacle::OnMeshHit);
 
 }
 
+void ACpp_Obstacle::OnMeshHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
+	if (auto Player = Cast<ACpp_PlayerCharacter>(OtherActor)) {
+		Player->Death();
+	}
+}
 
 

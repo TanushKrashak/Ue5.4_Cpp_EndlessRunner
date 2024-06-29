@@ -12,6 +12,8 @@ class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
 class ACpp_GM_EndlessRunner;
+class UParticleSystem;
+class USoundBase;
 
 UCLASS()
 class CPP_ENDLESSRUNNER_API ACpp_PlayerCharacter : public ACharacter
@@ -47,6 +49,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Lane")
 	void ChangeLaneComplete();
 
+	// Game Over
+	UFUNCTION(BlueprintCallable)
+	void Death();
+
+
 protected:
 	//================================================================================================================
 	// PROPERTIES & VARIABLES
@@ -65,15 +72,24 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* MoveDownAction;
 
+	// Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* SpringArm;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* Camera;
 
+	// References
 	UPROPERTY(VisibleInstanceOnly)
 	ACpp_GM_EndlessRunner* GameModeRef;
 
+	// Death Effects
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Assets")
+	UParticleSystem* DeathParticles;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Assets")
+	USoundBase* DeathSound;
+
+	UPROPERTY()
+	FTimerHandle RestartTimerHandle;
 
 	//================================================================================================================
 	// FUNCTIONS
@@ -84,5 +100,9 @@ protected:
 	void MoveRight();
 	UFUNCTION()
 	void MoveDown();
+
+	
+	UFUNCTION()
+	void onDeath();
 
 };

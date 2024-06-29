@@ -8,6 +8,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Core/Cpp_GM_EndlessRunner.h"
+#include "Kismet/GameplayStatics.h"
 
 
 
@@ -80,6 +81,25 @@ void ACpp_PlayerCharacter::ChangeLaneUpdate(float inAlpha) {
 }
 void ACpp_PlayerCharacter::ChangeLaneComplete() {
 	CurrentLane = TargetLane;
+}
+
+void ACpp_PlayerCharacter::Death() {
+	const FVector Location = GetActorLocation();
+	const auto World = GetWorld();
+	// Play Death Effects
+	if (DeathParticles) {
+		UGameplayStatics::SpawnEmitterAtLocation(World, DeathParticles, Location, FRotator::ZeroRotator, true);
+	}
+	if (DeathSound) {
+		UGameplayStatics::PlaySoundAtLocation(World, DeathSound, Location);	
+	}
+	// Hide Mesh
+	GetMesh()->SetVisibility(false);
+	World->GetTimerManager().SetTimer(RestartTimerHandle, this, &ACpp_PlayerCharacter::onDeath, 2.0f, false);
+}
+void ACpp_PlayerCharacter::onDeath() {
+	// Restart Level
+	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 }
 
 void ACpp_PlayerCharacter::MoveLeft() {

@@ -63,21 +63,27 @@ void ACpp_Floor::SetGameModeRef(ACpp_GM_EndlessRunner* inGamemode) {
 }
 
 void ACpp_Floor::SpawnItems() {
-	if (SmallObstacleClass) {
+	// Check if all classes in ObstacleClasses Array  are valid
+	if (ObstacleClasses.Num() > 0) {
+		// Spawn Obstacles
 		SpawnLaneItem(CenterLane);
 		SpawnLaneItem(LeftLane);
 		SpawnLaneItem(RightLane);
 	}
+
 }
 void ACpp_Floor::SpawnLaneItem(UArrowComponent* Lane) {
+	// Spawn Parameters
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	const FTransform& SpawnTransform = Lane->GetComponentTransform();
+
 	// Decide On Chance
 	const float RandomValue = FMath::FRandRange(0.0f, 1.0f);
 	if (RandomValue <= 0.5f) {
-		// Spawn Obstacle
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		const FTransform& SpawnTransform = Lane->GetComponentTransform();
-		ACpp_Obstacle* Obstacle = GetWorld()->SpawnActor<ACpp_Obstacle>(SmallObstacleClass, SpawnTransform, SpawnParams);
+		// Small Obstacle		
+		TSubclassOf<ACpp_Obstacle> ChosenObstacle = ObstacleClasses[FMath::RandRange(0, ObstacleClasses.Num() - 1)];
+		ACpp_Obstacle* Obstacle = GetWorld()->SpawnActor<ACpp_Obstacle>(ChosenObstacle, SpawnTransform, SpawnParams);
 
 	}
 }
