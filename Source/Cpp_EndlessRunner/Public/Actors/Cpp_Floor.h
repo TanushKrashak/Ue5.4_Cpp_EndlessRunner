@@ -1,3 +1,4 @@
+
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
@@ -13,6 +14,7 @@ class UArrowComponent;
 class UBoxComponent;
 class ACpp_GM_EndlessRunner;
 class ACpp_Obstacle;
+class ACpp_Coin;
 
 UCLASS()
 class CPP_ENDLESSRUNNER_API ACpp_Floor : public AActor
@@ -71,6 +73,10 @@ protected:
 	// Obstacle Classes
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Config")
 	TArray<TSubclassOf<ACpp_Obstacle>> ObstacleClasses;
+
+	// Coin Class
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Config")
+	TSubclassOf<ACpp_Coin> CoinClass;
 
 	//================================================================================================================
 	// FUNCTIONS

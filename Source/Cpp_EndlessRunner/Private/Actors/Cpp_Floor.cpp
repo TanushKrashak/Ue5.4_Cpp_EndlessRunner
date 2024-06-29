@@ -7,7 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "Core/Cpp_GM_EndlessRunner.h"
 #include "Actors/Cpp_Obstacle.h"
-
+#include "Actors/Cpp_Coin.h"
 
 ACpp_Floor::ACpp_Floor()
 {
@@ -64,7 +64,7 @@ void ACpp_Floor::SetGameModeRef(ACpp_GM_EndlessRunner* inGamemode) {
 
 void ACpp_Floor::SpawnItems() {
 	// Check if all classes in ObstacleClasses Array  are valid
-	if (ObstacleClasses.Num() > 0) {
+	if (ObstacleClasses.Num() > 0 && CoinClass) {
 		// Spawn Obstacles
 		SpawnLaneItem(CenterLane);
 		SpawnLaneItem(LeftLane);
@@ -79,11 +79,19 @@ void ACpp_Floor::SpawnLaneItem(UArrowComponent* Lane) {
 	const FTransform& SpawnTransform = Lane->GetComponentTransform();
 
 	// Decide On Chance
-	const float RandomValue = FMath::FRandRange(0.0f, 1.0f);
-	if (RandomValue <= 0.5f) {
-		// Small Obstacle		
-		TSubclassOf<ACpp_Obstacle> ChosenObstacle = ObstacleClasses[FMath::RandRange(0, ObstacleClasses.Num() - 1)];
-		ACpp_Obstacle* Obstacle = GetWorld()->SpawnActor<ACpp_Obstacle>(ChosenObstacle, SpawnTransform, SpawnParams);
+	float RandomValue = FMath::FRandRange(0.0f, 1.0f);
+	if (RandomValue <= 0.8f) {
+		// Small obstacle Or Coin
+		RandomValue = FMath::FRandRange(0.0f, 1.0f);
+		if (RandomValue <= 0.7f) {
+			// Coin
+			ACpp_Coin* Coin = GetWorld()->SpawnActor<ACpp_Coin>(CoinClass, SpawnTransform, SpawnParams);
+		}
+		else {
+			// Obstacle
+			TSubclassOf<ACpp_Obstacle> ChosenObstacle = ObstacleClasses[FMath::RandRange(0, ObstacleClasses.Num() - 1)];
+			ACpp_Obstacle* Obstacle = GetWorld()->SpawnActor<ACpp_Obstacle>(ChosenObstacle, SpawnTransform, SpawnParams);
+		}				
 
 	}
 }

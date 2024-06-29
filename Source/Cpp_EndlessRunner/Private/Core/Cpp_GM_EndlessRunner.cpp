@@ -47,6 +47,11 @@ float ACpp_GM_EndlessRunner::GetLaneOffset(int32 index) const {
 	return LaneOffsets[index];
 }
 
+void ACpp_GM_EndlessRunner::CoinCollected() {
+	CoinsCollected++;
+	UE_LOG(LogTemp, Warning, TEXT("Coins Collected: %d"), CoinsCollected);
+}
+
 void ACpp_GM_EndlessRunner::BeginPlay() {
 	Super::BeginPlay();
 

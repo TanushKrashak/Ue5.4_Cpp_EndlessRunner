@@ -53,6 +53,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Death();
 
+	// Coin Collected
+	UFUNCTION(BlueprintCallable)
+	void CoinCollected();
 
 protected:
 	//================================================================================================================

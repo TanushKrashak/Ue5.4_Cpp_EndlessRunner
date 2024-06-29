@@ -99,6 +99,12 @@ void ACpp_PlayerCharacter::Death() {
 		World->GetTimerManager().SetTimer(RestartTimerHandle, this, &ACpp_PlayerCharacter::onDeath, 2.0f, false);
 	}
 }
+
+void ACpp_PlayerCharacter::CoinCollected() {
+	GameModeRef->CoinCollected();
+	// Can add cosmetic effects here
+}
+
 void ACpp_PlayerCharacter::onDeath() {
 	// Restart Level
 	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);

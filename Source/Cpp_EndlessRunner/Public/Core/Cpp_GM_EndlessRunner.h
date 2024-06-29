@@ -32,6 +32,9 @@ public:
 	UFUNCTION()
 	float GetLaneOffset(int32 index) const;
 
+	UFUNCTION()
+	void CoinCollected();
+
 protected:
 	//================================================================================================================
 	// PROPERTIES & VARIABLES
@@ -48,6 +51,9 @@ protected:
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 	TArray<float> LaneOffsets;
+
+	UPROPERTY(VisibleAnywhere, Category = "Coins")
+	int32 CoinsCollected = 0;
 
 
 	//================================================================================================================
