@@ -9,7 +9,7 @@
 #include "InputActionValue.h"
 #include "Core/Cpp_GM_EndlessRunner.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 ACpp_PlayerCharacter::ACpp_PlayerCharacter()
@@ -119,6 +119,9 @@ void ACpp_PlayerCharacter::MoveRight() {
 	ChangeLane();
 }
 void ACpp_PlayerCharacter::MoveDown() {
-	
+	// Jump Down only if falling
+	if (GetCharacterMovement()->IsFalling()) {
+		GetCharacterMovement()->Velocity.Z = MoveDownSpeed;
+	}
 }
 
