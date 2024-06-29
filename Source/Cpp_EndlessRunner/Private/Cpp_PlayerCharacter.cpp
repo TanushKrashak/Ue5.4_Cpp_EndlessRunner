@@ -84,18 +84,20 @@ void ACpp_PlayerCharacter::ChangeLaneComplete() {
 }
 
 void ACpp_PlayerCharacter::Death() {
-	const FVector Location = GetActorLocation();
-	const auto World = GetWorld();
-	// Play Death Effects
-	if (DeathParticles) {
-		UGameplayStatics::SpawnEmitterAtLocation(World, DeathParticles, Location, FRotator::ZeroRotator, true);
+	if (!RestartTimerHandle.IsValid()) {
+		const FVector Location = GetActorLocation();
+		const auto World = GetWorld();
+		// Play Death Effects
+		if (DeathParticles) {
+			UGameplayStatics::SpawnEmitterAtLocation(World, DeathParticles, Location, FRotator::ZeroRotator, true);
+		}
+		if (DeathSound) {
+			UGameplayStatics::PlaySoundAtLocation(World, DeathSound, Location);
+		}
+		// Hide Mesh
+		GetMesh()->SetVisibility(false);
+		World->GetTimerManager().SetTimer(RestartTimerHandle, this, &ACpp_PlayerCharacter::onDeath, 2.0f, false);
 	}
-	if (DeathSound) {
-		UGameplayStatics::PlaySoundAtLocation(World, DeathSound, Location);	
-	}
-	// Hide Mesh
-	GetMesh()->SetVisibility(false);
-	World->GetTimerManager().SetTimer(RestartTimerHandle, this, &ACpp_PlayerCharacter::onDeath, 2.0f, false);
 }
 void ACpp_PlayerCharacter::onDeath() {
 	// Restart Level
