@@ -27,7 +27,7 @@ public:
 	void CreateInitialFloorTiles();
 
 	UFUNCTION(BlueprintCallable)
-	void AddFloorTile();
+	ACpp_Floor* AddFloorTile();
 
 
 protected:
@@ -43,6 +43,10 @@ protected:
 
 	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
 	FTransform NextSpawnPoint;
+
+	UPROPERTY(VisibleInstanceOnly, Category = "Runtime")
+	TArray<float> LaneOffsets;
+
 
 	//================================================================================================================
 	// FUNCTIONS

@@ -21,13 +21,30 @@ public:
 	//================================================================================================================
 	// PROPERTIES & VARIABLES
 	//================================================================================================================
+	// Lanes
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category = "Lanes")
+	int32 CurrentLane = 1;
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category = "Lanes")
+	int32 TargetLane = 0;
+
+
 
 	//================================================================================================================
 	// FUNCTIONS
 	//================================================================================================================
 	ACpp_PlayerCharacter();
 
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
+	// Lane Changing
+	UFUNCTION(BlueprintImplementableEvent, Category ="Lane")
+	void ChangeLane();
+	UFUNCTION(BlueprintCallable, Category = "Lane")
+	void ChangeLaneUpdate(float inAlpha);
+	UFUNCTION(BlueprintCallable, Category = "Lane")
+	void ChangeLaneComplete();
 
 protected:
 	//================================================================================================================
@@ -59,10 +76,6 @@ protected:
 	//================================================================================================================
 	// FUNCTIONS
 	//================================================================================================================
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
-
 	UFUNCTION()
 	void MoveLeft();
 	UFUNCTION()

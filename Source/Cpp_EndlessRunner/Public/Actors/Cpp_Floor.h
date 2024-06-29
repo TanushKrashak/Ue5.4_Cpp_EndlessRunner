@@ -21,8 +21,14 @@ class CPP_ENDLESSRUNNER_API ACpp_Floor : public AActor
 public:		
 	//================================================================================================================
 	// PROPERTIES & VARIABLES
-	//================================================================================================================
-	
+	//================================================================================================================	
+	// Lanes
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UArrowComponent* CenterLane;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UArrowComponent* LeftLane;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UArrowComponent* RightLane;
 
 	//================================================================================================================
 	// FUNCTIONS
@@ -45,14 +51,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UArrowComponent* AttachPoint;
-
-	// Lanes
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UArrowComponent* CenterLane;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UArrowComponent* LeftLane;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-	UArrowComponent* RightLane;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Floor")
 	UBoxComponent* FloorTrigger;

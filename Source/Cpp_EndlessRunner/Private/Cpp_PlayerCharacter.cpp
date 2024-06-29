@@ -69,6 +69,13 @@ void ACpp_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	}
 }
 
+void ACpp_PlayerCharacter::ChangeLaneUpdate(float inAlpha) {
+
+}
+void ACpp_PlayerCharacter::ChangeLaneComplete() {
+
+}
+
 void ACpp_PlayerCharacter::MoveLeft() {
 
 }
